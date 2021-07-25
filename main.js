@@ -1,6 +1,7 @@
-const addDrinkButton = document.querySelector('[data-alpha-pos="add-drink"]')
 const alphaPos = new AlphaPos()
+const addDrinkButton = document.querySelector('[data-alpha-pos="add-drink"]')
 const orderLists = document.querySelector('[data-order-lists]')
+const checkoutButton = document.querySelector('[data-alpha-pos="checkout"]')
 
 function Drink(name, sugar, ice) {
   this.name = name
@@ -62,6 +63,20 @@ AlphaPos.prototype.deleteDrink = function (target) {
   target.remove()
 }
 
+AlphaPos.prototype.checkout = function () {
+  let totalAmount = 0
+  document.querySelectorAll('[data-drink-price]').forEach(function (drink) {
+    totalAmount += Number(drink.textContent)
+  })
+  return totalAmount
+}
+
+AlphaPos.prototype.clearOrder = function (target) {
+  target.querySelectorAll('.card').forEach(function (card) {
+    card.remove()
+  })
+}
+
 addDrinkButton.addEventListener('click', function () {
   const drinkName = alphaPos.getCheckedValue('drink')
   const ice = alphaPos.getCheckedValue('ice')
@@ -83,4 +98,9 @@ orderLists.addEventListener('click', function (event) {
   }
 
   alphaPos.deleteDrink(event.target.parentElement.parentElement.parentElement)
+})
+
+checkoutButton.addEventListener('click', function () {
+  alert(`Total amount of drinks: $${alphaPos.checkout()}`)
+  alphaPos.clearOrder(orderLists)
 })
