@@ -58,6 +58,10 @@ AlphaPos.prototype.addDrink = function (drink) {
   orderLists.insertAdjacentHTML('afterbegin', orderListsCard)
 }
 
+AlphaPos.prototype.deleteDrink = function (target) {
+  target.remove()
+}
+
 addDrinkButton.addEventListener('click', function () {
   const drinkName = alphaPos.getCheckedValue('drink')
   const ice = alphaPos.getCheckedValue('ice')
@@ -70,4 +74,13 @@ addDrinkButton.addEventListener('click', function () {
 
   const drink = new Drink(drinkName, sugar, ice)
   alphaPos.addDrink(drink)
+})
+
+orderLists.addEventListener('click', function (event) {
+  let isDeleteButton = event.target.matches('[data-alpha-pos="delete-drink"]')
+  if (!isDeleteButton) {
+    return
+  }
+
+  alphaPos.deleteDrink(event.target.parentElement.parentElement.parentElement)
 })
